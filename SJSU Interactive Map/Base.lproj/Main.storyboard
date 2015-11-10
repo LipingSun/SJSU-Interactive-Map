@@ -76,6 +76,11 @@
                         </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="btn" destination="mIo-Jf-SLh" id="WHd-6U-HdF"/>
+                        <outlet property="imageView" destination="fpe-Zc-FSG" id="cUy-s2-zzP"/>
+                        <outlet property="scrollView" destination="edg-3W-Jzt" id="tKu-fc-yS3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
