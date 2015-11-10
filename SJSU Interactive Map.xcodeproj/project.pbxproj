@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EEC92C841BF276F800536D97 /* SJSU Interactive Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SJSU Interactive Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEC92C841BF276F800536D97 /* SJSU Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SJSU Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEC92C871BF276F800536D97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EEC92C891BF276F800536D97 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EEC92C8C1BF276F800536D97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -46,7 +46,7 @@
 		EEC92C851BF276F800536D97 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EEC92C841BF276F800536D97 /* SJSU Interactive Map.app */,
+				EEC92C841BF276F800536D97 /* SJSU Map.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,7 +81,7 @@
 			);
 			name = "SJSU Interactive Map";
 			productName = "SJSU Interactive Map";
-			productReference = EEC92C841BF276F800536D97 /* SJSU Interactive Map.app */;
+			productReference = EEC92C841BF276F800536D97 /* SJSU Map.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -253,7 +253,7 @@
 				INFOPLIST_FILE = "SJSU Interactive Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.sjsu.cmpe277.lab3.SJSU-Interactive-Map";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "SJSU Map";
 			};
 			name = Debug;
 		};
@@ -264,7 +264,7 @@
 				INFOPLIST_FILE = "SJSU Interactive Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.sjsu.cmpe277.lab3.SJSU-Interactive-Map";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "SJSU Map";
 			};
 			name = Release;
 		};
@@ -287,6 +287,7 @@
 				EEC92C981BF276F800536D97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
