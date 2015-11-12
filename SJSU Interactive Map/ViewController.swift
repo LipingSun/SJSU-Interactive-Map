@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
     
     // ScrollView
     @IBOutlet var scrollView: UIScrollView!
@@ -19,7 +19,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var btn2: UIButton!
     @IBOutlet weak var btn3: UIButton!
     
-    
+    // CLLocationManagerDelegate
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,20 +34,18 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         btn1.backgroundColor = UIColor.redColor()
         btn2.backgroundColor = UIColor.redColor()
         btn3.backgroundColor = UIColor.redColor()
+        
+        // CLLocationManagerDelegate
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     /* --------------------------------  UIScrollViewDelegate -------------------------------- */
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        print("---viewDidLayoutSubviews---")
-        print("image.size", imageView.image!.size)
-        print("imageView.size", imageView.frame.size)
-        print("scrollView.frame.size", scrollView.frame.size)
-        print("scrollView.contentSize", scrollView.contentSize)
-        print("screen.size", UIScreen.mainScreen().bounds.size)
-        
         
         let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
         btn.frame = CGRect(origin: CoordinateToScrollViewOffset(location), size: btn.frame.size)
@@ -98,6 +97,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         return CGPointMake(x, y)
     }
     
+    /* --------------------------------  CLLocationManagerDelegate -------------------------------- */
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        // Alert: Failed to get your location, Please enable it in settings
+        print("Failed to get your location, Please enable it in settings")
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        locationManager.stopUpdatingLocation()
+    }
     
     
 }
