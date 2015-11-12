@@ -11,16 +11,20 @@ import CoreLocation
 
 class ViewController: UIViewController, UIScrollViewDelegate {
     
+    // ScrollView
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var btn: UIButton!
-    
     @IBOutlet weak var btn1: UIButton!
     @IBOutlet weak var btn2: UIButton!
     @IBOutlet weak var btn3: UIButton!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // ScrollView
         imageView.image = UIImage(named: "campusmap")
         scrollView.delegate = self
         scrollView.maximumZoomScale = 2
@@ -30,6 +34,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         btn2.backgroundColor = UIColor.redColor()
         btn3.backgroundColor = UIColor.redColor()
     }
+    
+    /* --------------------------------  UIScrollViewDelegate -------------------------------- */
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -43,17 +49,14 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         
         let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
-        btn.frame = CGRect(origin: CoordinateToViewPosition(location), size: btn.frame.size)
-//        btn1.frame = CGRect(origin: CGPointMake(200 * scale, 200 * scale + verticalPadding), size: btn.frame.size)
-//        btn2.frame = CGRect(origin: CGPointMake(167 * scale, 218 * scale + verticalPadding), size: btn.frame.size)
-//        btn3.frame = CGRect(origin: CGPointMake(650 * scale, 690 * scale + verticalPadding), size: btn.frame.size)
+        btn.frame = CGRect(origin: CoordinateToScrollViewOffset(location), size: btn.frame.size)
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
-    func CoordinateToViewPosition(location: CLLocation) -> CGPoint {
+    func CoordinateToScrollViewOffset(location: CLLocation) -> CGPoint {
         
         let scrollViewSize = scrollView.frame.size
         let imageSize = imageView.image!.size
@@ -94,6 +97,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         return CGPointMake(x, y)
     }
+    
+    
     
 }
 
