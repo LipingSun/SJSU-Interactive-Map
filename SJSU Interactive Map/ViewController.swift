@@ -44,6 +44,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         print("scrollView.contentSize", scrollView.contentSize)
         print("screen.size", UIScreen.mainScreen().bounds.size)
         
+        
+        btn.backgroundColor = UIColor.redColor()
+        btn1.backgroundColor = UIColor.redColor()
+        btn2.backgroundColor = UIColor.redColor()
+        btn3.backgroundColor = UIColor.redColor()
+        
         let scrollViewSize = scrollView.frame.size
         let imageSize = imageView.image!.size
         
@@ -57,14 +63,48 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let horizontalPadding = imageSize.width * scale < scrollViewSize.width ? (scrollViewSize.width - imageSize.width * scale) / 2 : 0
         
         print("padding", verticalPadding, horizontalPadding)
-        btn.backgroundColor = UIColor.redColor()
-        btn.frame = CGRect(origin: CGPoint(x: 0 * scale + horizontalPadding, y: 0 * scale + verticalPadding), size: btn.frame.size)
-
         
-//        let offset = latlngToViewXY(scrollViewSize, location: CLLocation(latitude: 37.336859, longitude: -121.882154))
-//        print("offset", offset)
-
-
+        let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
+        let campusTopLeft = CLLocation(latitude: 37.337161, longitude: -121.887881)
+        let campusTopRight = CLLocation(latitude: 37.340737, longitude: -121.880252)
+        let campusBottomLeft = CLLocation(latitude: 37.330761, longitude: -121.883152)
+        let campusBottomRight = CLLocation(latitude: 37.334337, longitude: -121.875502)
+        
+        let a = campusTopLeft.distanceFromLocation(location)
+        let b = campusTopRight.distanceFromLocation(location)
+        let c = campusBottomLeft.distanceFromLocation(location)
+        let d = campusBottomRight.distanceFromLocation(location)
+        let e = campusTopLeft.distanceFromLocation(campusTopRight)
+        let f = campusTopLeft.distanceFromLocation(campusBottomLeft)
+        
+        var p = (a + b + e) / 2;
+        let areaTriangleTop = sqrt(p * (p - a) * (p - b) * (p - e));
+        p = (c + d + e) / 2;
+        let areaTriangleBottom = sqrt(p * (p - c) * (p - d) * (p - e));
+        p = (a + c + f) / 2;
+        let areaTriangleLeft = sqrt(p * (p - a) * (p - c) * (p - f));
+        p = (b + d + f) / 2;
+        let areaTriangleRight = sqrt(p * (p - b) * (p - d) * (p - f));
+        let x = CGFloat(areaTriangleLeft / (areaTriangleLeft + areaTriangleRight)) * imageSize.width * scale + horizontalPadding
+        let y = CGFloat(areaTriangleTop / (areaTriangleTop + areaTriangleBottom)) * imageSize.height * scale + verticalPadding
+        
+//        print("x", CGFloat(areaTriangleX / (areaQuadrangle / 2)) * imageSize.width * scale)
+//        print("y", CGFloat(areaTriangleY / (areaQuadrangle / 2)) * imageSize.height * scale)
+//        let x = CGFloat(areaTriangleX / (areaQuadrangle / 2)) * imageSize.width * scale + horizontalPadding
+//        let y = CGFloat(areaTriangleY / (areaQuadrangle / 2)) * imageSize.height * scale + verticalPadding
+        
+        
+        btn.frame = CGRect(origin: CGPointMake(x, y), size: btn.frame.size)
+//        btn1.frame = CGRect(origin: CGPointMake(200 * scale, 200 * scale + verticalPadding), size: btn.frame.size)
+//        btn2.frame = CGRect(origin: CGPointMake(167 * scale, 218 * scale + verticalPadding), size: btn.frame.size)
+//        btn3.frame = CGRect(origin: CGPointMake(650 * scale, 690 * scale + verticalPadding), size: btn.frame.size)
+        
+        print("==== origin ====", btn.frame.origin)
+        
+        //        let offset = latlngToViewXY(scrollViewSize, location: CLLocation(latitude: 37.336859, longitude: -121.882154))
+        //        print("offset", offset)
+        
+        
         //        let offset = latlngToCampusImageCoordinate(CLLocation(latitude: 37.337074, longitude: -121.881648))
         
         //        let markerImageView = UIImageView(image: UIImage(named: "marker"))
@@ -78,14 +118,39 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         return imageView
     }
     
-    func latlngToViewPosition(scrollViewSize: CGSize, location: CLLocation) -> CGPoint {
+    func latlngToViewPosition(location: CLLocation) -> CGPoint {
+        
+        let scrollViewSize = scrollView.frame.size
+        let imageSize = imageView.image!.size
+        
+        let widthScale = scrollViewSize.width / imageSize.width
+        let heightScale = scrollViewSize.height / imageSize.height
+        
+        let scale = min(widthScale, heightScale)
+        print("scale", scale)
+        
+        let verticalPadding = imageSize.height * scale < scrollViewSize.height ? (scrollViewSize.height - imageSize.height * scale) / 2 : 0
+        let horizontalPadding = imageSize.width * scale < scrollViewSize.width ? (scrollViewSize.width - imageSize.width * scale) / 2 : 0
+        
+        print("padding", verticalPadding, horizontalPadding)
+        
         let campusTopLeft = CLLocation(latitude: 37.337161, longitude: -121.887881)
         let campusTopRight = CLLocation(latitude: 37.340737, longitude: -121.880252)
         let campusBottomLeft = CLLocation(latitude: 37.330761, longitude: -121.883152)
         let campusBottomRight = CLLocation(latitude: 37.334337, longitude: -121.875502)
         
-        let x = scrollViewSize.width * CGFloat((location.coordinate.longitude - campusTopLeft.coordinate.longitude) / (campusBottomRight.coordinate.longitude - campusTopLeft.coordinate.longitude))
-        let y = scrollViewSize.height * CGFloat((campusTopRight.coordinate.latitude - location.coordinate.latitude) / (campusTopRight.coordinate.latitude - campusBottomLeft.coordinate.latitude))
+        let a = campusTopLeft.distanceFromLocation(location)
+        let b = campusTopRight.distanceFromLocation(location)
+        let c = campusTopLeft.distanceFromLocation(campusBottomLeft)
+        let d = campusBottomRight.distanceFromLocation(campusBottomLeft)
+        let p = (a + b + c) / 2;
+        let areaTriangleX = sqrt(p * (p - a) * (p - b) * (p - c));
+        let areaTriangleY = sqrt(p * (p - a) * (p - b) * (p - d));
+        let areaQuadrangle = c * d
+        
+        print("x", CGFloat(areaTriangleX / (areaQuadrangle / 2)) * imageSize.width)
+        let x = CGFloat(areaTriangleX / (areaQuadrangle / 2)) * imageSize.width * scale + horizontalPadding
+        let y = CGFloat(areaTriangleY / (areaQuadrangle / 2)) * imageSize.height * scale + verticalPadding
         return CGPointMake(x, y)
     }
     
