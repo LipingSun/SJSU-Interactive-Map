@@ -40,6 +40,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        // MapService
+        let mapService = MapService()
+        var result = mapService.distancetime("37.3369726,-121.8824186", destination: "37.333736,-121.8805341")
+        print("distance", result["distance"])
+        print("time", result["time"])
     }
     
     /* --------------------------------  UIScrollViewDelegate -------------------------------- */
@@ -105,7 +111,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        print("GPS Location = \(locValue.latitude) \(locValue.longitude)")
         locationManager.stopUpdatingLocation()
     }
     
