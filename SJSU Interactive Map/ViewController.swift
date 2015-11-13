@@ -174,8 +174,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             let buildingLocationString = String(building.lat) + "," + String(building.lng)
             let mapServiceResponse = mapService.distancetime(userLocationString, destination: buildingLocationString)
             
-            detailBuildingVC.timeString = String(mapServiceResponse["distance"])
-            detailBuildingVC.distanceString = String(mapServiceResponse["time"])
+            detailBuildingVC.timeString = "Walking Time: " + String(mapServiceResponse["time"]!)
+            detailBuildingVC.distanceString = "Distance: " + String(mapServiceResponse["distance"]!)
         }
         
         self.presentViewController(detailBuildingVC, animated: true, completion: nil)
