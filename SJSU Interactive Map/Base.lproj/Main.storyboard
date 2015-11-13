@@ -109,6 +109,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="34" height="97"/>
                                         <animations/>
                                         <state key="normal" title="Back"/>
+                                        <connections>
+                                            <action selector="backBtnClick" destination="zK2-ph-dcP" eventType="touchUpInside" id="RmR-5K-3Pn"/>
+                                        </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="iJQ-3K-VbM">
                                         <rect key="frame" x="0.0" y="97" width="343" height="551"/>
