@@ -11,29 +11,41 @@ import CoreLocation
 
 class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
     
+    // Building data
+    var buildings = [Building]()
+    
     // ScrollView
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var btn: UIButton!
-    @IBOutlet weak var btn1: UIButton!
-    @IBOutlet weak var btn2: UIButton!
-    @IBOutlet weak var btn3: UIButton!
     
     // CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let label = UIButton(frame: CGRect(x: 70, y: 100, width: 100, height: 30))
+        label.setTitle("abcd", forState: UIControlState.Normal)
+        label.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        label.addTarget(self, action: "buttonClick", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(label)
+        
+        // Building data
+        loadBuildings()
+        for building in buildings {
+            let button = UIButton(type: UIButtonType.System) as UIButton
+            button.setTitle(building.name, forState: UIControlState.Normal)
+            button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            button.addTarget(self, action: "buttonClick", forControlEvents: UIControlEvents.TouchUpInside)
+            building.button = button
+            imageView.addSubview(button)
+        }
+        
         // ScrollView
         imageView.image = UIImage(named: "campusmap")
         scrollView.delegate = self
         scrollView.maximumZoomScale = 2
-        
-        btn.backgroundColor = UIColor.redColor()
-        btn1.backgroundColor = UIColor.redColor()
-        btn2.backgroundColor = UIColor.redColor()
-        btn3.backgroundColor = UIColor.redColor()
         
         // CLLocationManagerDelegate
         locationManager.delegate = self
@@ -48,13 +60,50 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         print("time", result["time"])
     }
     
-    /* --------------------------------  UIScrollViewDelegate -------------------------------- */
+
+    /* -------------------------------- Building data -------------------------------- */
+    func loadBuildings() {
+        let photo1 = UIImage(named: "KingLibrary")!
+        let building1 = Building(name: "King Library", photo: photo1,
+            address: "150 E San Fernando St, San Jose, CA 95112", lat: 37.33645, lng: -121.88438)!
+        
+        let photo2 = UIImage(named: "EngineeringBuilding")!
+        let building2 = Building(name: "Engineering Building", photo: photo2,
+            address: "San José State University Charles W. Davidson College of Engineering, 1 Washington Square, San Jose, CA 95112", lat: 37.33747, lng: -121.88428)!
+        
+        let photo3 = UIImage(named: "YoshihiroUchidaHall")!
+        let building3 = Building(name: "Yoshihiro Uchida Hall", photo: photo3,
+            address: "Yoshihiro Uchida Hall, San Jose, CA 95112",
+            lat: 37.33378, lng: -121.88339)!
+        
+        let photo4 = UIImage(named: "StudentUnion")!
+        let building4 = Building(name: "Student Union", photo: photo4,
+            address: "Student Union Building, San Jose, CA 95112",
+            lat: 37.33677, lng: -121.88105)!
+        
+        let photo5 = UIImage(named: "BBC")!
+        let building5 = Building(name: "BBC", photo: photo5,
+            address: "Boccardo Business Complex, San Jose, CA 95112",
+            lat: 37.33656, lng: -121.87872)!
+        
+        let photo6 = UIImage(named: "SouthParkingGarage")!
+        let building6 = Building(name: "South Parking Garage", photo: photo6,
+            address: "San Jose State University South Garage, 330 South 7th Street, San Jose, CA 95112",
+            lat: 37.33302, lng: -121.88097)!
+        
+        buildings += [building1, building2, building3, building4, building5, building6]
+    }
     
+    /* -------------------------------- UIScrollViewDelegate -------------------------------- */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
-        btn.frame = CGRect(origin: CoordinateToScrollViewOffset(location), size: btn.frame.size)
+//        let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
+        for building in buildings {
+            let btnOffset = CLLocation(latitude: building.lat, longitude: building.lng)
+            building.button!.frame = CGRect(origin: CoordinateToScrollViewOffset(btnOffset), size: building.button!.frame.size)
+        }
+
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
@@ -103,7 +152,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         return CGPointMake(x, y)
     }
     
-    /* --------------------------------  CLLocationManagerDelegate -------------------------------- */
+    /* -------------------------------- CLLocationManagerDelegate -------------------------------- */
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         // Alert: Failed to get your location, Please enable it in settings
         print("Failed to get your location, Please enable it in settings")
@@ -113,6 +162,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("GPS Location = \(locValue.latitude) \(locValue.longitude)")
         locationManager.stopUpdatingLocation()
+    }
+    
+    /* -------------------------------- Button Action -------------------------------- */
+    func buttonClick(sender: UIButton!) {
+        
     }
     
     
