@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
     
     // Building data
     var buildings = [Building]()
@@ -17,6 +17,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     // ScrollView
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     // CLLocationManagerDelegate
     let locationManager = CLLocationManager()
@@ -27,19 +28,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let label = UIButton(frame: CGRect(x: 70, y: 100, width: 100, height: 30))
-        label.setTitle("abcd", forState: UIControlState.Normal)
-        label.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        label.addTarget(self, action: "buttonClick", forControlEvents: UIControlEvents.TouchUpInside)
-        self.view.addSubview(label)
-        
         // Building data
         loadBuildings()
         for building in buildings {
-            let button = UIButton(type: UIButtonType.System) as UIButton
+            let button = UIButton()
             button.setTitle(building.name, forState: UIControlState.Normal)
             button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-            button.addTarget(self, action: "buttonClick", forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: Selector("buttonClick:"), forControlEvents: UIControlEvents.TouchUpInside)
             building.button = button
             imageView.addSubview(button)
         }
@@ -60,38 +55,41 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         var result = mapService.distancetime("37.3369726,-121.8824186", destination: "37.333736,-121.8805341")
         print("distance", result["distance"])
         print("time", result["time"])
+        
+        // Search
+        searchBar.delegate = self
     }
     
-
+    
     /* -------------------------------- Building data -------------------------------- */
     func loadBuildings() {
         let photo1 = UIImage(named: "KingLibrary")!
         let building1 = Building(name: "King Library", photo: photo1,
-            address: "150 E San Fernando St, San Jose, CA 95112", lat: 37.33645, lng: -121.88438)!
+            address: "150 E San Fernando St, San Jose, CA 95112", lat: 37.335491, lng: -121.885141)!
         
         let photo2 = UIImage(named: "EngineeringBuilding")!
         let building2 = Building(name: "Engineering Building", photo: photo2,
-            address: "San José State University Charles W. Davidson College of Engineering, 1 Washington Square, San Jose, CA 95112", lat: 37.33747, lng: -121.88428)!
+            address: "San José State University Charles W. Davidson College of Engineering, 1 Washington Square, San Jose, CA 95112", lat: 37.337098, lng: -121.881831)!
         
         let photo3 = UIImage(named: "YoshihiroUchidaHall")!
         let building3 = Building(name: "Yoshihiro Uchida Hall", photo: photo3,
             address: "Yoshihiro Uchida Hall, San Jose, CA 95112",
-            lat: 37.33378, lng: -121.88339)!
+            lat: 37.333658, lng: -121.883880)!
         
         let photo4 = UIImage(named: "StudentUnion")!
         let building4 = Building(name: "Student Union", photo: photo4,
             address: "Student Union Building, San Jose, CA 95112",
-            lat: 37.33677, lng: -121.88105)!
+            lat: 37.336379, lng: -121.881285)!
         
         let photo5 = UIImage(named: "BBC")!
         let building5 = Building(name: "BBC", photo: photo5,
             address: "Boccardo Business Complex, San Jose, CA 95112",
-            lat: 37.33656, lng: -121.87872)!
+            lat: 37.336665, lng: -121.878752)!
         
         let photo6 = UIImage(named: "SouthParkingGarage")!
         let building6 = Building(name: "South Parking Garage", photo: photo6,
             address: "San Jose State University South Garage, 330 South 7th Street, San Jose, CA 95112",
-            lat: 37.33302, lng: -121.88097)!
+            lat: 37.333134, lng: -121.880838)!
         
         buildings += [building1, building2, building3, building4, building5, building6]
     }
@@ -100,12 +98,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-//        let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
-        for building in buildings {
+        //        let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
+        for (index, building) in buildings.enumerate() {
             let btnOffset = CLLocation(latitude: building.lat, longitude: building.lng)
-            building.button!.frame = CGRect(origin: CoordinateToScrollViewOffset(btnOffset), size: building.button!.frame.size)
+            building.button!.frame = CGRect(origin: CoordinateToScrollViewOffset(btnOffset), size: CGSize(width: 46, height: 30))
+            building.button!.tag = index
         }
-
+        
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
@@ -168,31 +167,28 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     /* -------------------------------- Button Action -------------------------------- */
     @IBAction func buttonClick(sender: UIButton!) {
-        if (sender.titleLabel!.text == "Button") {
-            resBuilding = buildings[0]
+        resBuilding = buildings[sender.tag]
+        let detailBuildingVC = self.storyboard?.instantiateViewControllerWithIdentifier("DetailBuildingVC") as! DetailBuildingViewController
+        detailBuildingVC.nameString = resBuilding!.name
+        detailBuildingVC.addressString = resBuilding!.address
+        detailBuildingVC.photoImage = resBuilding!.photo
+        detailBuildingVC.timeString = resBuilding!.time
+        detailBuildingVC.distanceString = resBuilding!.distance
+        self.presentViewController(detailBuildingVC, animated: true, completion: nil)
+    }
+    
+    /* search */
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        for building in buildings{
+            if(building.name.lowercaseString ==  searchBar.text!.lowercaseString){
+                print(building.name)
+            }
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if let destinationVC = segue.destinationViewController as? DetailBuildingViewController{
-            //if the resBuilding is empty
-            if(resBuilding==nil){
-                destinationVC.nameString = "Not set"
-                destinationVC.addressString = "Not set"
-                destinationVC.timeString = "Not set"
-                destinationVC.distanceString = "Not set"
-                
-            }
-            else{
-                destinationVC.nameString = resBuilding!.name
-                destinationVC.addressString = resBuilding!.address
-                destinationVC.photoImage = resBuilding!.photo
-                destinationVC.timeString = resBuilding!.time
-                destinationVC.distanceString = resBuilding!.distance
-            }
-        }
-    }
-
 }
 

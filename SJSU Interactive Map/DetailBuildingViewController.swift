@@ -22,7 +22,6 @@ class DetailBuildingViewController: UIViewController {
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var image: UIImageView!
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
