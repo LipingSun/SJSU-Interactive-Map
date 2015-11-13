@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE392E7F1BF52EFA00524E67 /* MapService.m in Sources */ = {isa = PBXBuildFile; fileRef = EE392E7E1BF52EFA00524E67 /* MapService.m */; };
+		EE392E821BF550E800524E67 /* Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE392E801BF550E800524E67 /* Building.swift */; };
+		EE392E831BF550E800524E67 /* DetailBuildingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE392E811BF550E800524E67 /* DetailBuildingViewController.swift */; };
 		EEC92C881BF276F800536D97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC92C871BF276F800536D97 /* AppDelegate.swift */; };
 		EEC92C8A1BF276F800536D97 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC92C891BF276F800536D97 /* ViewController.swift */; };
 		EEC92C8D1BF276F800536D97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEC92C8B1BF276F800536D97 /* Main.storyboard */; };
@@ -15,6 +18,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE392E7C1BF52EF900524E67 /* SJSU Interactive Map-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SJSU Interactive Map-Bridging-Header.h"; sourceTree = "<group>"; };
+		EE392E7D1BF52EFA00524E67 /* MapService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapService.h; sourceTree = "<group>"; };
+		EE392E7E1BF52EFA00524E67 /* MapService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapService.m; sourceTree = "<group>"; };
+		EE392E801BF550E800524E67 /* Building.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Building.swift; sourceTree = "<group>"; };
+		EE392E811BF550E800524E67 /* DetailBuildingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBuildingViewController.swift; sourceTree = "<group>"; };
 		EEC92C841BF276F800536D97 /* SJSU Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SJSU Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEC92C871BF276F800536D97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EEC92C891BF276F800536D97 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,11 +63,16 @@
 			isa = PBXGroup;
 			children = (
 				EEC92C871BF276F800536D97 /* AppDelegate.swift */,
+				EE392E801BF550E800524E67 /* Building.swift */,
 				EEC92C891BF276F800536D97 /* ViewController.swift */,
+				EE392E811BF550E800524E67 /* DetailBuildingViewController.swift */,
 				EEC92C8B1BF276F800536D97 /* Main.storyboard */,
-				EEC92C8E1BF276F800536D97 /* Assets.xcassets */,
 				EEC92C901BF276F800536D97 /* LaunchScreen.storyboard */,
+				EEC92C8E1BF276F800536D97 /* Assets.xcassets */,
 				EEC92C931BF276F800536D97 /* Info.plist */,
+				EE392E7D1BF52EFA00524E67 /* MapService.h */,
+				EE392E7E1BF52EFA00524E67 /* MapService.m */,
+				EE392E7C1BF52EF900524E67 /* SJSU Interactive Map-Bridging-Header.h */,
 			);
 			path = "SJSU Interactive Map";
 			sourceTree = "<group>";
@@ -137,7 +150,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEC92C8A1BF276F800536D97 /* ViewController.swift in Sources */,
+				EE392E831BF550E800524E67 /* DetailBuildingViewController.swift in Sources */,
 				EEC92C881BF276F800536D97 /* AppDelegate.swift in Sources */,
+				EE392E7F1BF52EFA00524E67 /* MapService.m in Sources */,
+				EE392E821BF550E800524E67 /* Building.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,11 +266,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "SJSU Interactive Map/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.sjsu.cmpe277.lab3.SJSU-Interactive-Map";
 				PRODUCT_NAME = "SJSU Map";
+				SWIFT_OBJC_BRIDGING_HEADER = "SJSU Interactive Map/SJSU Interactive Map-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -262,11 +281,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "SJSU Interactive Map/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.sjsu.cmpe277.lab3.SJSU-Interactive-Map";
 				PRODUCT_NAME = "SJSU Map";
+				SWIFT_OBJC_BRIDGING_HEADER = "SJSU Interactive Map/SJSU Interactive Map-Bridging-Header.h";
 			};
 			name = Release;
 		};
