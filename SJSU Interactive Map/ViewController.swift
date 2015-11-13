@@ -115,14 +115,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         let widthScale = scrollViewSize.width / imageSize.width
         let heightScale = scrollViewSize.height / imageSize.height
-        
         let scale = min(widthScale, heightScale)
-        print("scale", scale)
         
         let verticalPadding = imageSize.height * scale < scrollViewSize.height ? (scrollViewSize.height - imageSize.height * scale) / 2 : 0
         let horizontalPadding = imageSize.width * scale < scrollViewSize.width ? (scrollViewSize.width - imageSize.width * scale) / 2 : 0
-        
-        print("padding", verticalPadding, horizontalPadding)
         
         let campusTopLeft = CLLocation(latitude: 37.337161, longitude: -121.887881)
         let campusTopRight = CLLocation(latitude: 37.340737, longitude: -121.880252)
@@ -175,14 +171,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     }
     
     /* ------------------------------------- search ------------------------------------- */
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        
-    }
-    
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         for building in buildings{
             if(building.name.lowercaseString ==  searchBar.text!.lowercaseString){
-                print(building.name)
+                let buildingOrigin = building.button!.frame.origin
+                let offset = CGPoint(x: buildingOrigin.x * scrollView.zoomScale - scrollView.frame.size.width / 2,
+                    y: buildingOrigin.y * scrollView.zoomScale - scrollView.frame.size.height / 2)
+                scrollView.setContentOffset(offset, animated: true)
             }
         }
     }
