@@ -21,6 +21,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     // CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     
+    // Detail page
+    var resBuilding: Building?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,10 +167,32 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     }
     
     /* -------------------------------- Button Action -------------------------------- */
-    func buttonClick(sender: UIButton!) {
-        
+    @IBAction func buttonClick(sender: UIButton!) {
+        if (sender.titleLabel!.text == "Button") {
+            resBuilding = buildings[0]
+        }
     }
     
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if let destinationVC = segue.destinationViewController as? DetailBuildingViewController{
+            //if the resBuilding is empty
+            if(resBuilding==nil){
+                destinationVC.nameString = "Not set"
+                destinationVC.addressString = "Not set"
+                destinationVC.timeString = "Not set"
+                destinationVC.distanceString = "Not set"
+                
+            }
+            else{
+                destinationVC.nameString = resBuilding!.name
+                destinationVC.addressString = resBuilding!.address
+                destinationVC.photoImage = resBuilding!.photo
+                destinationVC.timeString = resBuilding!.time
+                destinationVC.distanceString = resBuilding!.distance
+            }
+        }
+    }
+
 }
 
