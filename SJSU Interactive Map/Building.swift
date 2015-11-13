@@ -16,7 +16,6 @@ class Building {
     var photo: UIImage?
     var lat: Double
     var lng: Double
-    var button: UIButton?
     
     // MARK: Initialization
     

@@ -12,7 +12,7 @@ import CoreLocation
 class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
     
     // Building data
-    var buildings = [Building]()
+    var buildingMarkers = [BuildingMarker]()
     
     // ScrollView
     @IBOutlet var scrollView: UIScrollView!
@@ -29,12 +29,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         // Building data
         loadBuildings()
-        for building in buildings {
+        for buildingMarker in buildingMarkers {
+            let label = UILabel()
+            label.text = buildingMarker.name
+//            label.font = Fon
+            label.textColor = UIColor.blackColor()
+            buildingMarker.label = label
+            imageView.addSubview(label)
+            
             let button = UIButton()
-            button.setTitle(building.name, forState: UIControlState.Normal)
-            button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+//            button.setTitle(building.name, forState: UIControlState.Normal)
+//            button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            button.setBackgroundImage(UIImage(named: "building-marker"), forState: UIControlState.Normal)
             button.addTarget(self, action: Selector("buttonClick:"), forControlEvents: UIControlEvents.TouchUpInside)
-            building.button = button
+            buildingMarker.button = button
             imageView.addSubview(button)
         }
         
@@ -57,34 +65,34 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     /* -------------------------------- Building data -------------------------------- */
     func loadBuildings() {
         let photo1 = UIImage(named: "KingLibrary")!
-        let building1 = Building(name: "King Library", photo: photo1,
+        let building1 = BuildingMarker(name: "King Library", photo: photo1,
             address: "150 E San Fernando St, San Jose, CA 95112", lat: 37.335491, lng: -121.885141)!
         
         let photo2 = UIImage(named: "EngineeringBuilding")!
-        let building2 = Building(name: "Engineering Building", photo: photo2,
+        let building2 = BuildingMarker(name: "Engineering Building", photo: photo2,
             address: "San José State University Charles W. Davidson College of Engineering, 1 Washington Square, San Jose, CA 95112", lat: 37.337098, lng: -121.881831)!
         
         let photo3 = UIImage(named: "YoshihiroUchidaHall")!
-        let building3 = Building(name: "Yoshihiro Uchida Hall", photo: photo3,
+        let building3 = BuildingMarker(name: "Yoshihiro Uchida Hall", photo: photo3,
             address: "Yoshihiro Uchida Hall, San Jose, CA 95112",
             lat: 37.333658, lng: -121.883880)!
         
         let photo4 = UIImage(named: "StudentUnion")!
-        let building4 = Building(name: "Student Union", photo: photo4,
+        let building4 = BuildingMarker(name: "Student Union", photo: photo4,
             address: "Student Union Building, San Jose, CA 95112",
             lat: 37.336379, lng: -121.881285)!
         
         let photo5 = UIImage(named: "BBC")!
-        let building5 = Building(name: "BBC", photo: photo5,
+        let building5 = BuildingMarker(name: "BBC", photo: photo5,
             address: "Boccardo Business Complex, San Jose, CA 95112",
             lat: 37.336665, lng: -121.878752)!
         
         let photo6 = UIImage(named: "SouthParkingGarage")!
-        let building6 = Building(name: "South Parking Garage", photo: photo6,
+        let building6 = BuildingMarker(name: "South Parking Garage", photo: photo6,
             address: "San Jose State University South Garage, 330 South 7th Street, San Jose, CA 95112",
             lat: 37.333134, lng: -121.880838)!
         
-        buildings += [building1, building2, building3, building4, building5, building6]
+        buildingMarkers += [building1, building2, building3, building4, building5, building6]
     }
     
     /* -------------------------------- UIScrollViewDelegate -------------------------------- */
@@ -92,10 +100,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         super.viewDidLayoutSubviews()
         
         //        let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
-        for (index, building) in buildings.enumerate() {
-            let btnOffset = CLLocation(latitude: building.lat, longitude: building.lng)
-            building.button!.frame = CGRect(origin: CoordinateToScrollViewOffset(btnOffset), size: CGSize(width: 46, height: 30))
-            building.button!.tag = index
+        for (index, buildingMarker) in buildingMarkers.enumerate() {
+            let btnOffset = CoordinateToScrollViewOffset(CLLocation(latitude: buildingMarker.lat, longitude: buildingMarker.lng))
+            buildingMarker.button!.frame = CGRect(origin: btnOffset, size: CGSize(width: 25, height: 25))
+            buildingMarker.button!.tag = index
+            buildingMarker.label!.frame = CGRect(origin: CGPoint(x: btnOffset.x - 40, y: btnOffset.y + 20), size: CGSize(width: 300, height: 25))
         }
         
         //        imageView.bringSubviewToFront(locationMaker)
@@ -163,15 +172,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     /* -------------------------------- Button Action -------------------------------- */
     @IBAction func buttonClick(sender: UIButton!) {
-        let building = buildings[sender.tag]
+        let buildingMarker = buildingMarkers[sender.tag]
         let detailBuildingVC = self.storyboard?.instantiateViewControllerWithIdentifier("DetailBuildingVC") as! DetailBuildingViewController
-        detailBuildingVC.building = building
+        detailBuildingVC.buildingMarker = buildingMarker
         
         // MapService
         if (userLocation != nil) {
             let mapService = MapService()
             let userLocationString = String(userLocation!.latitude) + "," + String(userLocation!.longitude)
-            let buildingLocationString = String(building.lat) + "," + String(building.lng)
+            let buildingLocationString = String(buildingMarker.lat) + "," + String(buildingMarker.lng)
             let mapServiceResponse = mapService.distancetime(userLocationString, destination: buildingLocationString)
             
             detailBuildingVC.timeString = "Walking Time: " + String(mapServiceResponse["time"]!)
@@ -183,9 +192,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     /* ------------------------------------- search ------------------------------------- */
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        for building in buildings{
-            if(building.name.lowercaseString ==  searchBar.text!.lowercaseString){
-                let buildingOrigin = building.button!.frame.origin
+        for buildingMaker in buildingMarkers{
+            if(buildingMaker.name.lowercaseString ==  searchBar.text!.lowercaseString){
+                let buildingOrigin = buildingMaker.button!.frame.origin
                 let offset = CGPoint(x: buildingOrigin.x * scrollView.zoomScale - scrollView.frame.size.width / 2,
                     y: buildingOrigin.y * scrollView.zoomScale - scrollView.frame.size.height / 2)
                 scrollView.setContentOffset(offset, animated: true)

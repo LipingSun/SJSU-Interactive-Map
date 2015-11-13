@@ -11,7 +11,7 @@ import UIKit
 class DetailBuildingViewController: UIViewController {
     
     //MARK: properties
-    var building: Building?
+    var buildingMarker: BuildingMarker?
     var distanceString = ""
     var timeString = ""
     
@@ -38,7 +38,7 @@ class DetailBuildingViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let building = building {
+        if let building = buildingMarker {
             buildingName.text = building.name
             address.text = building.address
             image.image = building.photo
