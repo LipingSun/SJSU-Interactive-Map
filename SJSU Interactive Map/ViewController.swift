@@ -21,7 +21,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     // CLLocationManagerDelegate
     let locationManager = CLLocationManager()
-    var userLocation = CLLocationCoordinate2D()
+    var userLocation: CLLocationCoordinate2D?
     @IBOutlet var locationMaker: UIImageView!
     
     override func viewDidLoad() {
@@ -48,12 +48,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-        // MapService
-        let mapService = MapService()
-        var result = mapService.distancetime("37.3369726,-121.8824186", destination: "37.333736,-121.8805341")
-        print("distance", result["distance"])
-        print("time", result["time"])
         
         // Search
         searchBar.delegate = self
@@ -104,7 +98,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             building.button!.tag = index
         }
         
-//        imageView.bringSubviewToFront(locationMaker)
+        //        imageView.bringSubviewToFront(locationMaker)
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
@@ -158,26 +152,32 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         userLocation = manager.location!.coordinate
-        print("GPS Location = \(userLocation.latitude) \(userLocation.longitude)")
-        let makerOffset = CoordinateToScrollViewOffset(CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
-        print(makerOffset)
-        locationMaker.frame = CGRect(origin: makerOffset, size: locationMaker.frame.size)
-        locationMaker.hidden = false
-//        locationMaker.frame.
-
-        locationManager.stopUpdatingLocation()
+        if (userLocation != nil) {
+            print("GPS Location = \(userLocation!.latitude) \(userLocation!.longitude)")
+            let makerOffset = CoordinateToScrollViewOffset(CLLocation(latitude: userLocation!.latitude, longitude: userLocation!.longitude))
+            locationMaker.frame = CGRect(origin: makerOffset, size: locationMaker.frame.size)
+            locationMaker.hidden = false
+            locationManager.stopUpdatingLocation()
+        }
     }
     
     /* -------------------------------- Button Action -------------------------------- */
     @IBAction func buttonClick(sender: UIButton!) {
         let building = buildings[sender.tag]
         let detailBuildingVC = self.storyboard?.instantiateViewControllerWithIdentifier("DetailBuildingVC") as! DetailBuildingViewController
-        detailBuildingVC.nameString = building.name
-        detailBuildingVC.addressString = building.address
-        detailBuildingVC.photoImage = building.photo
+        detailBuildingVC.building = building
         
-        detailBuildingVC.timeString = ""
-        detailBuildingVC.distanceString = ""
+        // MapService
+        if (userLocation != nil) {
+            let mapService = MapService()
+            let userLocationString = String(userLocation!.latitude) + "," + String(userLocation!.longitude)
+            let buildingLocationString = String(building.lat) + "," + String(building.lng)
+            let mapServiceResponse = mapService.distancetime(userLocationString, destination: buildingLocationString)
+            
+            detailBuildingVC.timeString = String(mapServiceResponse["distance"])
+            detailBuildingVC.distanceString = String(mapServiceResponse["time"])
+        }
+        
         self.presentViewController(detailBuildingVC, animated: true, completion: nil)
     }
     
@@ -192,6 +192,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             }
         }
     }
-
+    
 }
 
