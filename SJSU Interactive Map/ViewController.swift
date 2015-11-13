@@ -22,9 +22,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     // CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     
-    // Detail page
-    var resBuilding: Building?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -167,17 +164,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     /* -------------------------------- Button Action -------------------------------- */
     @IBAction func buttonClick(sender: UIButton!) {
-        resBuilding = buildings[sender.tag]
+        let building = buildings[sender.tag]
         let detailBuildingVC = self.storyboard?.instantiateViewControllerWithIdentifier("DetailBuildingVC") as! DetailBuildingViewController
-        detailBuildingVC.nameString = resBuilding!.name
-        detailBuildingVC.addressString = resBuilding!.address
-        detailBuildingVC.photoImage = resBuilding!.photo
-        detailBuildingVC.timeString = resBuilding!.time
-        detailBuildingVC.distanceString = resBuilding!.distance
+        detailBuildingVC.nameString = building.name
+        detailBuildingVC.addressString = building.address
+        detailBuildingVC.photoImage = building.photo
+        detailBuildingVC.timeString = building.time
+        detailBuildingVC.distanceString = building.distance
         self.presentViewController(detailBuildingVC, animated: true, completion: nil)
     }
     
-    /* search */
+    /* ------------------------------------- search ------------------------------------- */
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         
     }
