@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EEC92C831BF276F800536D97"
-               BuildableName = "SJSU Interactive Map.app"
+               BuildableName = "SJSU Map.app"
                BlueprintName = "SJSU Interactive Map"
                ReferencedContainer = "container:SJSU Interactive Map.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EEC92C831BF276F800536D97"
-            BuildableName = "SJSU Interactive Map.app"
+            BuildableName = "SJSU Map.app"
             BlueprintName = "SJSU Interactive Map"
             ReferencedContainer = "container:SJSU Interactive Map.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EEC92C831BF276F800536D97"
-            BuildableName = "SJSU Interactive Map.app"
+            BuildableName = "SJSU Map.app"
             BlueprintName = "SJSU Interactive Map"
             ReferencedContainer = "container:SJSU Interactive Map.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EEC92C831BF276F800536D97"
-            BuildableName = "SJSU Interactive Map.app"
+            BuildableName = "SJSU Map.app"
             BlueprintName = "SJSU Interactive Map"
             ReferencedContainer = "container:SJSU Interactive Map.xcodeproj">
          </BuildableReference>
