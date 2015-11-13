@@ -119,7 +119,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="iJQ-3K-VbM">
-                                <rect key="frame" x="16" y="50" width="343" height="5405"/>
+                                <rect key="frame" x="16" y="50" width="343" height="18278"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Building Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6El-Jb-dB6">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="60"/>
@@ -173,7 +173,7 @@
                                         </constraints>
                                     </stackView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r24-xX-SJt">
-                                        <rect key="frame" x="0.0" y="170" width="343" height="5235"/>
+                                        <rect key="frame" x="0.0" y="170" width="343" height="18108"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="430" id="iaZ-Jg-Plk"/>
