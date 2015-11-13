@@ -11,11 +11,9 @@ import UIKit
 class DetailBuildingViewController: UIViewController {
     
     //MARK: properties
-    var nameString: String = ""
-    var addressString: String = ""
-    var photoImage: UIImage?
-    var timeString: String?
-    var distanceString: String?
+    var building: Building?
+    var distanceString = ""
+    var timeString = ""
     
     @IBOutlet weak var buildingName: UILabel!
     @IBOutlet weak var address: UILabel!
@@ -40,19 +38,13 @@ class DetailBuildingViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if(timeString==nil){
-            timeString="20 mins, 10 s"
+        if let building = building {
+            buildingName.text = building.name
+            address.text = building.address
+            image.image = building.photo
+            time.text = timeString
+            distance.text = distanceString
         }
-        
-        if(distanceString==nil){
-            distanceString="5.34 km"
-        }
-        
-        buildingName.text = nameString
-        address.text = addressString
-        time.text = timeString
-        distance.text = distanceString
-        image.image = photoImage
     }
     
     @IBAction func backBtnClick() {
