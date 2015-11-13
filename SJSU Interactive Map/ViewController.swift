@@ -21,6 +21,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     // CLLocationManagerDelegate
     let locationManager = CLLocationManager()
+    var userLocation = CLLocationCoordinate2D()
+    @IBOutlet var locationMaker: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +104,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             building.button!.tag = index
         }
         
+//        imageView.bringSubviewToFront(locationMaker)
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
@@ -146,6 +149,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         return CGPointMake(x, y)
     }
     
+    
     /* -------------------------------- CLLocationManagerDelegate -------------------------------- */
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         // Alert: Failed to get your location, Please enable it in settings
@@ -153,8 +157,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        print("GPS Location = \(locValue.latitude) \(locValue.longitude)")
+        userLocation = manager.location!.coordinate
+        print("GPS Location = \(userLocation.latitude) \(userLocation.longitude)")
+        let makerOffset = CoordinateToScrollViewOffset(CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
+        print(makerOffset)
+        locationMaker.frame = CGRect(origin: makerOffset, size: locationMaker.frame.size)
+        locationMaker.hidden = false
+//        locationMaker.frame.
+
         locationManager.stopUpdatingLocation()
     }
     
@@ -165,8 +175,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         detailBuildingVC.nameString = building.name
         detailBuildingVC.addressString = building.address
         detailBuildingVC.photoImage = building.photo
-        detailBuildingVC.timeString = building.time
-        detailBuildingVC.distanceString = building.distance
+        
+        detailBuildingVC.timeString = ""
+        detailBuildingVC.distanceString = ""
         self.presentViewController(detailBuildingVC, animated: true, completion: nil)
     }
     
@@ -181,6 +192,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             }
         }
     }
-    
+
 }
 

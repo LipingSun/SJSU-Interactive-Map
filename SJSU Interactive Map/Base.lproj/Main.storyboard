@@ -23,18 +23,21 @@
                                     <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="fpe-Zc-FSG" customClass="UIImageView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RM1-qI-Cpt">
-                                                <rect key="frame" x="292" y="25" width="46" height="30"/>
+                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location-marker" translatesAutoresizingMaskIntoConstraints="NO" id="jrJ-rj-aNe">
+                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                                 <animations/>
-                                                <state key="normal" title="Button"/>
-                                                <connections>
-                                                    <action selector="buttonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Iru-us-QGv"/>
-                                                    <segue destination="zK2-ph-dcP" kind="show" id="uct-sd-WOY"/>
-                                                </connections>
-                                            </button>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="20" id="83J-N6-Q04"/>
+                                                    <constraint firstAttribute="height" constant="20" id="RlI-sL-yjr"/>
+                                                </constraints>
+                                            </imageView>
                                         </subviews>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="jrJ-rj-aNe" firstAttribute="top" secondItem="fpe-Zc-FSG" secondAttribute="top" id="OgW-Q0-pwp"/>
+                                            <constraint firstItem="jrJ-rj-aNe" firstAttribute="leading" secondItem="fpe-Zc-FSG" secondAttribute="leading" id="gyI-7Z-kNl"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <animations/>
@@ -82,6 +85,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="imageView" destination="fpe-Zc-FSG" id="cUy-s2-zzP"/>
+                        <outlet property="locationMaker" destination="jrJ-rj-aNe" id="LbC-1X-7gL"/>
                         <outlet property="scrollView" destination="edg-3W-Jzt" id="tKu-fc-yS3"/>
                         <outlet property="searchBar" destination="T2U-Bo-Sau" id="NNv-72-Epx"/>
                     </connections>
@@ -203,4 +207,7 @@
             <point key="canvasLocation" x="743.5" y="299.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="location-marker" width="226" height="221"/>
+    </resources>
 </document>
