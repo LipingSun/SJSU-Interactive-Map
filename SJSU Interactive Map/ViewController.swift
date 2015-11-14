@@ -32,14 +32,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         for buildingMarker in buildingMarkers {
             let label = UILabel()
             label.text = buildingMarker.name
-//            label.font = Fon
+            label.font = UIFont.systemFontOfSize(10)
+            label.numberOfLines = 0
             label.textColor = UIColor.blackColor()
             buildingMarker.label = label
             imageView.addSubview(label)
             
             let button = UIButton()
-//            button.setTitle(building.name, forState: UIControlState.Normal)
-//            button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             button.setBackgroundImage(UIImage(named: "building-marker"), forState: UIControlState.Normal)
             button.addTarget(self, action: Selector("buttonClick:"), forControlEvents: UIControlEvents.TouchUpInside)
             buildingMarker.button = button
@@ -99,15 +98,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        //        let location = CLLocation(latitude: 37.332449, longitude: -121.882248)
         for (index, buildingMarker) in buildingMarkers.enumerate() {
-            let btnOffset = CoordinateToScrollViewOffset(CLLocation(latitude: buildingMarker.lat, longitude: buildingMarker.lng))
-            buildingMarker.button!.frame = CGRect(origin: btnOffset, size: CGSize(width: 25, height: 25))
-            buildingMarker.button!.tag = index
-            buildingMarker.label!.frame = CGRect(origin: CGPoint(x: btnOffset.x - 40, y: btnOffset.y + 20), size: CGSize(width: 300, height: 25))
+            let offset = CoordinateToScrollViewOffset(CLLocation(latitude: buildingMarker.lat, longitude: buildingMarker.lng))
+            let buildingButton = buildingMarker.button!
+            let buildingLabel = buildingMarker.label!
+            buildingButton.frame.size = CGSize(width: 25, height: 25)
+            buildingButton.frame.origin = CGPoint(x: offset.x - buildingButton.frame.width  / 2, y: offset.y - buildingButton.frame.height / 2)
+            buildingButton.tag = index
+            buildingLabel.sizeToFit()
+            buildingLabel.frame.origin = CGPoint(x: offset.x - buildingLabel.frame.width / 2, y: offset.y + buildingButton.frame.size.height / 2)
         }
         
-        //        imageView.bringSubviewToFront(locationMaker)
+        imageView.bringSubviewToFront(locationMaker)
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
@@ -183,7 +185,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             let buildingLocationString = String(buildingMarker.lat) + "," + String(buildingMarker.lng)
             let mapServiceResponse = mapService.distancetime(userLocationString, destination: buildingLocationString)
             
-            detailBuildingVC.timeString = "Walking Time: " + String(mapServiceResponse["time"]!)
+            detailBuildingVC.timeString = "Time: " + String(mapServiceResponse["time"]!)
             detailBuildingVC.distanceString = "Distance: " + String(mapServiceResponse["distance"]!)
         }
         
