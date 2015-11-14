@@ -118,6 +118,24 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func CoordinateToScrollViewOffset(location: CLLocation) -> CGPoint {
         
+        let campusTopLeft = CLLocation(latitude: 37.337161, longitude: -121.887881)
+        let campusTopRight = CLLocation(latitude: 37.340737, longitude: -121.880252)
+        let campusBottomLeft = CLLocation(latitude: 37.330761, longitude: -121.883152)
+        let campusBottomRight = CLLocation(latitude: 37.334337, longitude: -121.875502)
+        
+//        var campusRange: CGMutablePathRef = CGPathCreateMutable()
+//        var points = [CGPoint]()
+//        for location in [campusTopLeft, campusTopRight, campusBottomLeft, campusBottomRight] {
+//            points.append(CGPointMake(CGFloat(location.coordinate.longitude), CGFloat(location.coordinate.latitude)))
+//        }
+//        
+//        CGPathAddLines(campusRange, nil, points, 4)
+//        CGPathCloseSubpath(campusRange)
+////        CGMutablePathRef(campusRange).CGPathContainsPoint(location)
+//        
+//        CGPathContainsPoint(campusRange, nil, CGPointMake(CGFloat(location.coordinate.longitude), CGFloat(location.coordinate.latitude)), true)
+//        
+        
         let scrollViewSize = scrollView.frame.size
         let imageSize = imageView.image!.size
         
@@ -127,11 +145,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         let verticalPadding = imageSize.height * scale < scrollViewSize.height ? (scrollViewSize.height - imageSize.height * scale) / 2 : 0
         let horizontalPadding = imageSize.width * scale < scrollViewSize.width ? (scrollViewSize.width - imageSize.width * scale) / 2 : 0
-        
-        let campusTopLeft = CLLocation(latitude: 37.337161, longitude: -121.887881)
-        let campusTopRight = CLLocation(latitude: 37.340737, longitude: -121.880252)
-        let campusBottomLeft = CLLocation(latitude: 37.330761, longitude: -121.883152)
-        let campusBottomRight = CLLocation(latitude: 37.334337, longitude: -121.875502)
         
         let a = campusTopLeft.distanceFromLocation(location)
         let b = campusTopRight.distanceFromLocation(location)
@@ -159,6 +172,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         // Alert: Failed to get your location, Please enable it in settings
         print("Failed to get your location, Please enable it in settings")
+        locationMaker.hidden = true
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -168,7 +182,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             let makerOffset = CoordinateToScrollViewOffset(CLLocation(latitude: userLocation!.latitude, longitude: userLocation!.longitude))
             locationMaker.frame = CGRect(origin: makerOffset, size: locationMaker.frame.size)
             locationMaker.hidden = false
-            locationManager.stopUpdatingLocation()
+//            locationManager.stopUpdatingLocation()
         }
     }
     
