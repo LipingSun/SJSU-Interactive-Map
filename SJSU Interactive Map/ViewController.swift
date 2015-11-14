@@ -13,6 +13,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     // Building data
     var buildingMarkers = [BuildingMarker]()
+    let campusTopLeft = CLLocation(latitude: 37.337161, longitude: -121.887881)
+    let campusTopRight = CLLocation(latitude: 37.340737, longitude: -121.880252)
+    let campusBottomLeft = CLLocation(latitude: 37.330761, longitude: -121.883152)
+    let campusBottomRight = CLLocation(latitude: 37.334337, longitude: -121.875502)
     
     // ScrollView
     @IBOutlet var scrollView: UIScrollView!
@@ -118,24 +122,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func CoordinateToScrollViewOffset(location: CLLocation) -> CGPoint {
         
-        let campusTopLeft = CLLocation(latitude: 37.337161, longitude: -121.887881)
-        let campusTopRight = CLLocation(latitude: 37.340737, longitude: -121.880252)
-        let campusBottomLeft = CLLocation(latitude: 37.330761, longitude: -121.883152)
-        let campusBottomRight = CLLocation(latitude: 37.334337, longitude: -121.875502)
-        
-//        var campusRange: CGMutablePathRef = CGPathCreateMutable()
-//        var points = [CGPoint]()
-//        for location in [campusTopLeft, campusTopRight, campusBottomLeft, campusBottomRight] {
-//            points.append(CGPointMake(CGFloat(location.coordinate.longitude), CGFloat(location.coordinate.latitude)))
-//        }
-//        
-//        CGPathAddLines(campusRange, nil, points, 4)
-//        CGPathCloseSubpath(campusRange)
-////        CGMutablePathRef(campusRange).CGPathContainsPoint(location)
-//        
-//        CGPathContainsPoint(campusRange, nil, CGPointMake(CGFloat(location.coordinate.longitude), CGFloat(location.coordinate.latitude)), true)
-//        
-        
         let scrollViewSize = scrollView.frame.size
         let imageSize = imageView.image!.size
         
@@ -179,10 +165,21 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         userLocation = manager.location!.coordinate
         if (userLocation != nil) {
             print("GPS Location = \(userLocation!.latitude) \(userLocation!.longitude)")
-            let makerOffset = CoordinateToScrollViewOffset(CLLocation(latitude: userLocation!.latitude, longitude: userLocation!.longitude))
-            locationMaker.frame = CGRect(origin: makerOffset, size: locationMaker.frame.size)
-            locationMaker.hidden = false
-//            locationManager.stopUpdatingLocation()
+            
+            let campusRange: CGMutablePathRef = CGPathCreateMutable()
+            var points = [CGPoint]()
+            for location in [campusTopLeft, campusTopRight, campusBottomLeft, campusBottomRight] {
+                points.append(CGPointMake(CGFloat(location.coordinate.longitude), CGFloat(location.coordinate.latitude)))
+            }
+            
+            CGPathAddLines(campusRange, nil, points, 4)
+            CGPathCloseSubpath(campusRange)
+            if (CGPathContainsPoint(campusRange, nil, CGPointMake(CGFloat(userLocation!.longitude), CGFloat(userLocation!.latitude)), true)) {
+                let makerOffset = CoordinateToScrollViewOffset(CLLocation(latitude: userLocation!.latitude, longitude: userLocation!.longitude))
+                locationMaker.frame = CGRect(origin: makerOffset, size: locationMaker.frame.size)
+                locationMaker.hidden = false
+            }
+            //            locationManager.stopUpdatingLocation()
         }
     }
     
@@ -207,14 +204,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     }
     
     /* ------------------------------------- search ------------------------------------- */
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        for buildingMaker in buildingMarkers{
-            if(buildingMaker.name.lowercaseString ==  searchBar.text!.lowercaseString){
-                let buildingOrigin = buildingMaker.button!.frame.origin
-                let offset = CGPoint(x: buildingOrigin.x * scrollView.zoomScale - scrollView.frame.size.width / 2,
-                    y: buildingOrigin.y * scrollView.zoomScale - scrollView.frame.size.height / 2)
-                scrollView.setContentOffset(offset, animated: true)
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        var result = [BuildingMarker]()
+ 
+        for buildingMaker in buildingMarkers {
+            if (buildingMaker.name.lowercaseString.hasPrefix(searchText.lowercaseString)) {
+                result.append(buildingMaker)
             }
+        }
+        
+        if (result.count == 1) {
+            let buildingOrigin = result[0].button!.frame.origin
+            let offset = CGPoint(x: buildingOrigin.x * scrollView.zoomScale - scrollView.frame.size.width / 2,
+                y: buildingOrigin.y * scrollView.zoomScale - scrollView.frame.size.height / 2)
+            scrollView.setContentOffset(offset, animated: true)
         }
     }
     
