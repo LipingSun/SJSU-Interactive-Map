@@ -16,6 +16,7 @@
 		EEC92C8D1BF276F800536D97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEC92C8B1BF276F800536D97 /* Main.storyboard */; };
 		EEC92C8F1BF276F800536D97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEC92C8E1BF276F800536D97 /* Assets.xcassets */; };
 		EEC92C921BF276F800536D97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEC92C901BF276F800536D97 /* LaunchScreen.storyboard */; };
+		EEF0BB531BF6A9AC005EF7FF /* BuildingMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0BB521BF6A9AC005EF7FF /* BuildingMarker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		EEC92C8E1BF276F800536D97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EEC92C911BF276F800536D97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EEC92C931BF276F800536D97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EEF0BB521BF6A9AC005EF7FF /* BuildingMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuildingMarker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				EE392E7D1BF52EFA00524E67 /* MapService.h */,
 				EE392E7E1BF52EFA00524E67 /* MapService.m */,
 				EE392E7C1BF52EF900524E67 /* SJSU Interactive Map-Bridging-Header.h */,
+				EEF0BB521BF6A9AC005EF7FF /* BuildingMarker.swift */,
 			);
 			path = "SJSU Interactive Map";
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			files = (
 				EEC92C8A1BF276F800536D97 /* ViewController.swift in Sources */,
 				EE392E831BF550E800524E67 /* DetailBuildingViewController.swift in Sources */,
+				EEF0BB531BF6A9AC005EF7FF /* BuildingMarker.swift in Sources */,
 				EEC92C881BF276F800536D97 /* AppDelegate.swift in Sources */,
 				EE392E7F1BF52EFA00524E67 /* MapService.m in Sources */,
 				EE392E821BF550E800524E67 /* Building.swift in Sources */,
